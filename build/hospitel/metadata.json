@@ -1,0 +1,6 @@
+{
+  "name": "병마장 - 병원 마케팅 플랫폼",
+  "description": "병원 원장님을 위한 B2B 마케팅 랜딩페이지 및 블로그",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

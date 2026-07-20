@@ -1,0 +1,38 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #102B4E;
+  --color-primary-dark: #0A192F;
+  --color-point: #B48752; /* Sophisticated gold/champagne accent */
+  --color-text-main: #111827;
+  --color-text-sub: #4B5563;
+  --color-text-caption: #9CA3AF;
+  --color-bg-main: #FFFFFF;
+  --color-bg-sub: #FAFAFA;
+  --color-border: #E5E7EB;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-text-main bg-bg-main text-[15px] md:text-[17px] leading-[1.75];
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1 {
+    @apply font-bold text-[36px] md:text-[48px] lg:text-[60px] tracking-tight leading-[1.15];
+  }
+  
+  h2 {
+    @apply font-bold text-[28px] md:text-[38px] lg:text-[46px] text-text-main tracking-tight leading-[1.2];
+  }
+  
+  h3 {
+    @apply font-bold text-[22px] md:text-[26px] lg:text-[32px] tracking-tight leading-[1.3];
+  }
+}
+
