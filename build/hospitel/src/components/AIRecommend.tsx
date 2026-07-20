@@ -185,9 +185,7 @@ export function AIRecommend() {
                 <RefreshCw className="h-4 w-4" /> 다시 하기
               </button>
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header"
-                target="_blank"
-                rel="noreferrer"
+                href="/contact"
                 className="flex flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#B48752] px-8 py-4 font-bold text-white shadow-md transition-colors hover:bg-[#9CA3AF] md:flex-none"
               >
                 상세 상담 신청하기 <ArrowRight className="h-4 w-4" />

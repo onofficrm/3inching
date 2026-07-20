@@ -80,9 +80,7 @@ export function Header() {
 
           <div className="flex items-center gap-5">
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header"
-              target="_blank"
-              rel="noreferrer"
+              href="/contact"
               className="hidden md:inline-flex h-[44px] items-center justify-center rounded-[8px] bg-transparent border border-[#0A192F] px-7 text-[14px] font-bold text-[#0A192F] transition-all hover:bg-[#0A192F] hover:text-white hover:shadow-lg relative overflow-hidden group"
             >
               <span className="relative z-10">프리미엄 상담하기</span>
@@ -122,9 +120,7 @@ export function Header() {
                 )
               })}
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header"
-                target="_blank"
-                rel="noreferrer"
+                href="/contact"
                 className="mt-6 flex h-[54px] w-full items-center justify-center rounded-[10px] bg-[#0A192F] text-[16px] font-bold text-white shadow-md active:scale-95 transition-transform"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

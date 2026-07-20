@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ortho-seo",
+    "department": "정형외과",
+    "title": "지역 검색 1위 전환",
+    "metric": "문의 320% 증가",
+    "summary": "플레이스·지역키워드·후기 운영을 연결해 3개월 만에 신환 문의가 크게 늘었습니다.",
+    "tags": ["SEO·GEO", "지역키워드"],
+    "image": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=900"
+  },
+  {
+    "id": "dental-media",
+    "department": "치과",
+    "title": "원장 브랜딩 유튜브",
+    "metric": "구독 1.2만 / 상담 전환 18%",
+    "summary": "시술 FAQ 숏폼과 롱폼을 병행해 검색·상담 유입을 동시에 만들었습니다.",
+    "tags": ["미디어"],
+    "image": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=900"
+  },
+  {
+    "id": "obgyn-community",
+    "department": "산부인과",
+    "title": "맘카페 신뢰 구축",
+    "metric": "예약 전환 2.4배",
+    "summary": "지역 커뮤니티 여론과 후기 관리로 신규 산모 상담이 안정적으로 유입됩니다.",
+    "tags": ["커뮤니티"],
+    "image": "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&q=80&w=900"
+  },
+  {
+    "id": "derm-geo",
+    "department": "피부과",
+    "title": "AI 검색 인용 강화",
+    "metric": "브랜드 검색량 3배",
+    "summary": "GEO 콘텐츠와 시술 가이드를 구조화해 AI 답변에 병원명이 자주 노출되도록 했습니다.",
+    "tags": ["SEO·GEO", "AI 검색"],
+    "image": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=900"
+  }
+]

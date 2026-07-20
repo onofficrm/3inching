@@ -31,3 +31,8 @@ node_modules/
 .vscode/
 *.swp
 *.swo
+
+# 병마장 런타임 리드/진단 (서버 생성)
+data/hospitel/diagnoses.jsonl
+data/hospitel/inquiries.jsonl
+data/hospitel/content/

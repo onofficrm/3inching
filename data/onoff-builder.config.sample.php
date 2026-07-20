@@ -30,4 +30,7 @@ define('ONOFF_BUILDER_CONTENT_API_BASE_URL', 'https://icrm.co.kr/api/content-col
  * 기본 자동댓글은 온오프빌더 중앙 AI API를 사용하므로 비워도 됩니다.
  */
 define('ONOFF_BUILDER_GEMINI_API_KEY', '');
-define('ONOFF_BUILDER_GEMINI_MODEL', 'gemini-2.0-flash-lite');
+define('ONOFF_BUILDER_GEMINI_MODEL', 'gemini-2.5-flash');
+
+/** 병마장 블로그/사례 관리자 API 토큰 (SPA BlogAdmin에서 사용) */
+define('ONOFF_BUILDER_HOSPITEL_ADMIN_TOKEN', '');

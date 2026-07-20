@@ -13,7 +13,7 @@ export function Footer() {
                우리 병원에 맞는 시작점을 확인해보세요
             </h2>
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-               <a href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header" target="_blank" rel="noreferrer" className="inline-flex h-[54px] items-center justify-center rounded-[8px] bg-[#0A192F] px-8 text-[15px] font-bold text-white transition-all hover:bg-[#111827] hover:shadow-md hover:-translate-y-0.5 w-full sm:w-auto">
+               <a href="/contact" className="inline-flex h-[54px] items-center justify-center rounded-[8px] bg-[#0A192F] px-8 text-[15px] font-bold text-white transition-all hover:bg-[#111827] hover:shadow-md hover:-translate-y-0.5 w-full sm:w-auto">
                   상담 신청
                </a>
                <a href="http://pf.kakao.com/_APxbgb/chat" target="_blank" rel="noreferrer" className="inline-flex h-[54px] items-center justify-center rounded-[8px] bg-[#FEE500] px-8 text-[15px] font-bold text-[#371D1E] transition-all hover:bg-[#FEE500]/90 hover:shadow-md hover:-translate-y-0.5 w-full sm:w-auto">
@@ -77,9 +77,9 @@ export function Footer() {
             <h3 className="font-bold text-text-main mb-5 text-base">문의 및 정책</h3>
             <ul className="flex flex-col gap-3 text-text-sub text-sm font-medium mb-6">
               <li>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+                <Link to="/contact" className="hover:text-primary transition-colors">
                   온라인 문의폼
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="http://pf.kakao.com/_APxbgb/chat" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
@@ -88,8 +88,8 @@ export function Footer() {
               </li>
             </ul>
             <div className="flex gap-4 text-xs text-text-caption font-medium">
-               <a href="/privacy" className="hover:text-text-main transition-colors">개인정보처리방침</a>
-               <a href="/terms" className="hover:text-text-main transition-colors">이용약관</a>
+               <Link to="/privacy" className="hover:text-text-main transition-colors">개인정보처리방침</Link>
+               <Link to="/terms" className="hover:text-text-main transition-colors">이용약관</Link>
             </div>
           </div>
           

@@ -1,10 +1,15 @@
-# SPA client routes → index.php (빌더 React Router)
+# SPA routes → index.php + SEO helpers
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # robots / sitemap pretty URLs
+  RewriteRule ^robots\.txt$ /robots.php [L]
+  RewriteRule ^sitemap\.xml$ /sitemap.php [L]
 
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  RewriteRule ^(cases|services|guide|blog|admin/blog)(/.*)?$ /index.php [L,QSA]
+  RewriteRule ^(cases|services|guide|blog|contact|privacy|terms)/?$ /spa-shell.php?r=$1 [L,QSA]
+  RewriteRule ^(cases|services|guide|blog|admin/blog|privacy|terms|contact)(/.*)?$ /index.php [L,QSA]
 </IfModule>

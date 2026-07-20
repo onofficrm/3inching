@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import CountUp from "react-countup";
 import { AIRecommend } from "../components/AIRecommend";
+import { SeoHead } from "../components/SeoHead";
+import { InquiryForm } from "../components/InquiryForm";
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -22,6 +24,11 @@ const staggerContainer = {
 export function MainPage() {
   return (
     <div className="w-full flex flex-col bg-white">
+      <SeoHead
+        title="병마장 - 병원 전문 마케팅 컨설팅"
+        description="SEO·GEO, 미디어, 커뮤니티, 지역키워드로 병원의 디지털 자산을 구축하는 병원 마케팅 전문 에이전시 병마장."
+        path="/"
+      />
       {/* 2. 히어로 영역 & 3. 히어로 CTA */}
       <section className="w-full pt-20 md:pt-[110px] pb-24 flex justify-center bg-white relative overflow-hidden border-b border-gray-100">
         <div className="w-full max-w-[1240px] px-5 md:px-8 z-10 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
@@ -63,7 +70,7 @@ export function MainPage() {
             {/* CTA Buttons */}
             <motion.div variants={fadeUpVariant} className="flex flex-col sm:flex-row gap-4 mt-2">
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header"
+                href="/contact"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 h-[56px] flex items-center justify-center gap-2 rounded-[8px] bg-[#0A192F] text-[16px] font-bold text-white transition-all hover:bg-[#111827] hover:shadow-lg hover:-translate-y-0.5"
@@ -697,6 +704,18 @@ export function MainPage() {
          </div>
       </motion.section>
 
+      {/* 상담 문의 폼 */}
+      <section className="w-full py-20 md:py-28 flex justify-center bg-[#FAFAFA] border-b border-gray-100">
+        <div className="w-full max-w-[720px] px-5 md:px-8">
+          <div className="text-center mb-10">
+            <p className="text-[#B48752] font-bold text-[14px] mb-3">CONSULTATION</p>
+            <h2 className="text-[28px] md:text-[36px] font-bold text-[#0A192F] tracking-tight mb-3">상담 신청</h2>
+            <p className="text-[#4B5563]">병원명·지역·고민을 남겨주시면 확인 후 연락드립니다.</p>
+          </div>
+          <InquiryForm source="home" />
+        </div>
+      </section>
+
       {/* 9. 메인 최종 CTA */}
       <motion.section 
         initial="hidden"
@@ -725,7 +744,7 @@ export function MainPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <a href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-white text-[#0A192F] font-bold text-[16px] rounded-[8px] hover:bg-gray-100 transition-all shadow-sm hover:-translate-y-0.5 duration-200">
+               <a href="/contact" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-white text-[#0A192F] font-bold text-[16px] rounded-[8px] hover:bg-gray-100 transition-all shadow-sm hover:-translate-y-0.5 duration-200">
                   진행 가능 여부 확인
                </a>
                <a href="http://pf.kakao.com/_APxbgb/chat" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-[#FEE500] text-[#371D1E] font-bold text-[16px] rounded-[8px] hover:bg-[#FEE500]/90 transition-all shadow-sm hover:-translate-y-0.5 duration-200">

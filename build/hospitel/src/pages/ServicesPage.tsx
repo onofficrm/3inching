@@ -429,7 +429,7 @@ export function ServicesPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <a href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-white text-[#102B4E] font-bold text-[16px] rounded-[8px] hover:bg-gray-100 transition-colors shadow-sm">
+               <a href="/contact" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-white text-[#102B4E] font-bold text-[16px] rounded-[8px] hover:bg-gray-100 transition-colors shadow-sm">
                   서비스 상담 신청
                </a>
                <a href="http://pf.kakao.com/_APxbgb/chat" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-[56px] px-8 bg-[#FEE500] text-[#371D1E] font-bold text-[16px] rounded-[8px] hover:bg-[#FEE500]/90 transition-colors shadow-sm">

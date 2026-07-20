@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { MessageCircle, Maximize2, Search, PlayCircle, X, Check, ChevronRight } from "lucide-react";
+import { MessageCircle, Maximize2, Search, PlayCircle, X, Check, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { SeoHead } from "../components/SeoHead";
+import { useCases } from "../lib/content";
 
 const CASES_DATA = [
   { id: "all", label: "전체" },
@@ -14,12 +16,26 @@ const CASES_DATA = [
 export function SuccessCasesPage() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+  const { items: cmsCases, loading } = useCases();
 
   const openLightbox = (src: string) => setLightboxImg(src);
   const closeLightbox = () => setLightboxImg(null);
 
+  const filteredCms = useMemo(() => {
+    if (activeFilter === "all") return cmsCases;
+    const map: Record<string, string[]> = {
+      seo: ["SEO·GEO", "AI 검색"],
+      media: ["미디어"],
+      community: ["커뮤니티"],
+      geo: ["지역키워드", "지역 키워드"],
+    };
+    const keys = map[activeFilter] || [];
+    return cmsCases.filter((c) => (c.tags || []).some((t) => keys.includes(t)));
+  }, [cmsCases, activeFilter]);
+
   return (
     <div className="w-full flex flex-col bg-white">
+      <SeoHead title="성공 사례" description="병마장 병원 마케팅 실제 성공 사례" path="/cases" />
       {/* 1. 페이지 상단 */}
       <section className="w-full pt-16 md:pt-24 pb-12 md:pb-16 flex justify-center bg-[#102B4E] text-white relative overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10">
@@ -75,7 +91,28 @@ export function SuccessCasesPage() {
         </div>
       </section>
 
-      <div className="w-full max-w-[1000px] mx-auto px-5 md:px-8 py-16 md:py-24 flex flex-col gap-24">
+      {/* CMS 사례 카드 */}
+      <section className="w-full max-w-[1000px] mx-auto px-5 md:px-8 pt-14 md:pt-16">
+        {loading ? (
+          <div className="flex justify-center py-10"><Loader2 className="h-7 w-7 animate-spin text-[#B48752]" /></div>
+        ) : filteredCms.length > 0 && (
+          <div className="mb-16 grid gap-5 md:grid-cols-2">
+            {filteredCms.map((c) => (
+              <article key={c.id} className="overflow-hidden rounded-[16px] border border-gray-100 bg-white shadow-sm">
+                {c.image && <div className="h-40 bg-cover bg-center" style={{ backgroundImage: `url(${c.image})` }} />}
+                <div className="p-5">
+                  <p className="mb-1 text-xs font-bold text-[#B48752]">{c.department}</p>
+                  <h3 className="mb-2 text-lg font-bold text-[#0A192F]">{c.title}</h3>
+                  <p className="mb-3 text-sm font-bold text-[#102B4E]">{c.metric}</p>
+                  <p className="text-sm text-[#4B5563]">{c.summary}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <div className="w-full max-w-[1000px] mx-auto px-5 md:px-8 pb-16 md:pb-24 flex flex-col gap-24">
         
         {/* CASE 01 */}
         {(activeFilter === "all" || activeFilter === "seo") && (
@@ -121,7 +158,7 @@ function SectionCTA() {
     <div className="mt-16 pt-10 border-t border-border flex flex-col items-center text-center">
       <h4 className="text-[20px] md:text-[24px] font-bold text-[#102B4E] mb-6">우리 병원에도 적용할 수 있을까요?</h4>
       <div className="flex flex-col sm:flex-row gap-3">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header" target="_blank" rel="noreferrer" className="flex items-center justify-center h-[52px] px-8 bg-[#102B4E] text-white font-bold text-[15px] rounded-[8px] hover:bg-[#1A3F6F] transition-colors shadow-sm">
+        <a href="/contact" className="flex items-center justify-center h-[52px] px-8 bg-[#102B4E] text-white font-bold text-[15px] rounded-[8px] hover:bg-[#1A3F6F] transition-colors shadow-sm">
           진행 가능 여부 확인
         </a>
         <a href="http://pf.kakao.com/_APxbgb/chat" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-[52px] px-8 bg-[#FEE500] text-[#371D1E] font-bold text-[15px] rounded-[8px] hover:bg-[#FEE500]/90 transition-colors shadow-sm">

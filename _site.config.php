@@ -8,27 +8,27 @@ if (!defined('_GNUBOARD_')) {
 }
 
 $site_config = array(
-    'site_name'           => '샘플 사이트',
-    'site_desc'           => '빌더 디자인 적용이 쉬운 그누보드 베이스 템플릿',
-    'company_name'        => '회사명',
+    'site_name'           => '병마장',
+    'site_desc'           => '병원 전문 마케팅 컨설팅 — SEO·GEO, 미디어, 커뮤니티, 지역키워드',
+    'company_name'        => '병마장',
     'ceo_name'            => '대표자명',
     'business_no'         => '000-00-00000',
     'phone'               => '010-0000-0000',
-    'kakao_url'           => '#',
+    'kakao_url'           => 'http://pf.kakao.com/_APxbgb/chat',
     'email'               => 'help@example.com',
     'address'             => '주소를 입력하세요',
-    'primary_color'       => '#2563eb',
-    'secondary_color'     => '#64748b',
-    'logo_path'           => '/img/logo/logo.svg',
-    'og_image'            => '/img/common/og-image.jpg',
+    'primary_color'       => '#0A192F',
+    'secondary_color'     => '#B48752',
+    'logo_path'           => '/favicon.svg',
+    'og_image'            => '/apple-touch-icon.png',
     /* SEO (components/seo-meta.php) */
-    'seo_title'           => '',
-    'seo_description'     => '',
-    'main_keyword'        => '',
-    'sub_keywords'        => '',
+    'seo_title'           => '병마장 - 병원 전문 마케팅 컨설팅',
+    'seo_description'     => '병원 마케팅 전문 에이전시 병마장. SEO·GEO, 미디어, 커뮤니티, 지역키워드로 병원의 디지털 자산을 구축합니다.',
+    'main_keyword'        => '병원 마케팅',
+    'sub_keywords'        => '병원 SEO, 병원 유튜브, 병원 커뮤니티, 지역키워드',
     'robots'              => 'index,follow',
     'consultation_text'   => '상담문의',
-    'footer_desc'         => '고객의 성장을 돕는 웹사이트 제작 베이스입니다.',
+    'footer_desc'         => '병원 마케팅 전문 서비스. 검색, AI, 영상, 커뮤니티를 연결합니다.',
     /* 문의 폼 → inquiry 게시판 (proc/inquiry-submit.php) */
     'inquiry_bo_table'        => 'inquiry',
     'inquiry_notify_enabled'  => true,
@@ -76,8 +76,9 @@ $site_config = array(
     'auto_comment_builtin'      => true,
     /* RSS · sitemap · robots (lib/seo-feed.lib.php, rss.php, sitemap.php) */
     'seo_feed_enabled'          => true,
-    'sitemap_static_pages'      => '',  /* 비우면 /page/*.php 자동 (제외 목록 제외) */
-    'sitemap_exclude_pages'     => '',  /* 추가 제외 경로, 쉼표 구분 */
+    'sitemap_static_pages'      => "/,/cases,/services,/guide,/blog,/contact,/privacy,/terms",
+    'sitemap_exclude_pages'     => '/admin/blog',
+    'hospitel_admin_token'      => '',  /* 비우면 그누보드 관리자 세션 또는 onoff-builder.config 토큰 */
     'sitemap_exclude_boards'    => 'inquiry',  /* 문의 게시판 등 sitemap/RSS 제외 */
     'sitemap_max_posts_per_board' => '500',
     'sitemap_rss_item_limit'    => '50',

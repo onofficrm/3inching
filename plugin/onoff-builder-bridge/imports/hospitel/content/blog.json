@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1",
+    "slug": "ai-search-hospital",
+    "category": "AI 검색",
+    "type": "가이드",
+    "title": "생성형 AI 시대, 우리 병원은 어떻게 검색될 것인가",
+    "summary": "네이버 큐(CUE:)와 챗GPT 시대에 대응하는 병원 마케팅의 새로운 기준. 변화하는 검색 환경에서 살아남기 위한 디지털 자산 구축 전략을 정리합니다.",
+    "date": "2024. 06. 15",
+    "readTime": "7분",
+    "image": "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=1200",
+    "featured": true,
+    "body": "생성형 AI가 검색의 기본 인터페이스가 되면서, 병원도 '상위노출'만으로는 충분치 않습니다.\n\n환자들은 이제 증상·지역·진료과를 자연어로 묻고, AI가 요약·추천하는 결과를 봅니다. 병마장은 SEO·GEO와 콘텐츠 구조화를 통해 AI가 인용할 수 있는 병원 정보를 만듭니다.\n\n핵심은 네이버 플레이스, 구글 비즈니스, 전문 콘텐츠, 영상·커뮤니티 신뢰 신호를 한 줄로 연결하는 것입니다."
+  },
+  {
+    "id": "2",
+    "slug": "seo-is-not-enough",
+    "category": "SEO·GEO",
+    "type": "인사이트",
+    "title": "병원 마케팅, 이제는 상위노출이 정답이 아닌 이유",
+    "summary": "검색 상위노출만으로는 예약으로 이어지지 않습니다. 브랜드 신뢰와 콘텐츠 자산이 필요합니다.",
+    "date": "2024. 06. 10",
+    "readTime": "5분",
+    "image": "https://images.unsplash.com/photo-1551076805-e18690c5e451?auto=format&fit=crop&q=80&w=800",
+    "featured": false,
+    "body": "상위노출은 시작점입니다. 실제 전환은 병원 전문성·후기·영상·지역 커뮤니티 신뢰가 결정합니다."
+  },
+  {
+    "id": "3",
+    "slug": "youtube-hospital-brand",
+    "category": "병원 영상",
+    "type": "가이드",
+    "title": "원장님 얼굴이 곧 브랜드다: 병원 유튜브 운영 가이드",
+    "summary": "짧은 영상으로 전문성을 증명하고, 검색·커뮤니티와 연결하는 방법을 소개합니다.",
+    "date": "2024. 06. 01",
+    "readTime": "6분",
+    "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800",
+    "featured": false,
+    "body": "병원 영상은 광고가 아니라 자산입니다. 진료 철학, FAQ, 시술 전후 설명을 꾸준히 쌓으면 SEO와 상담 전환이 함께 올라갑니다."
+  },
+  {
+    "id": "4",
+    "slug": "local-keyword-strategy",
+    "category": "지역 키워드",
+    "type": "인사이트",
+    "title": "우리 동네 키워드를 선점하는 병원만 살아남는다",
+    "summary": "세부 지역·증상 키워드 조합으로 경쟁 병원과 차별화하는 실전 전략.",
+    "date": "2024. 05. 20",
+    "readTime": "4분",
+    "image": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800",
+    "featured": false,
+    "body": "광역 키워드보다 '지역+진료' 조합이 전환율이 높습니다. 병마장은 지역키워드와 플레이스 최적화를 함께 설계합니다."
+  }
+]

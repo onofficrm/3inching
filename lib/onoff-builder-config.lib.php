@@ -33,7 +33,8 @@ if (!function_exists('onoff_builder_config_load')) {
             'rank_api_base_url' => 'https://icrm.co.kr/api/rank-check',
             'content_api_base_url' => 'https://icrm.co.kr/api/content-collector',
             'gemini_api_key' => '',
-            'gemini_model' => 'gemini-2.0-flash-lite',
+            'gemini_model' => 'gemini-2.5-flash',
+            'hospitel_admin_token' => '',
         );
 
         $path = onoff_builder_config_path();
@@ -50,6 +51,7 @@ if (!function_exists('onoff_builder_config_load')) {
                 'ONOFF_BUILDER_CONTENT_API_BASE_URL' => 'content_api_base_url',
                 'ONOFF_BUILDER_GEMINI_API_KEY' => 'gemini_api_key',
                 'ONOFF_BUILDER_GEMINI_MODEL' => 'gemini_model',
+                'ONOFF_BUILDER_HOSPITEL_ADMIN_TOKEN' => 'hospitel_admin_token',
             );
             foreach ($map as $const => $key) {
                 if (defined($const)) {
