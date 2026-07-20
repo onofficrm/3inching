@@ -453,7 +453,7 @@ export function MainPage() {
          </div>
       </motion.section>
 
-      {/* 6.3. AI 맞춤형 서비스 진단 */}
+      {/* 마케팅 솔루션 진단 */}
       <motion.section 
         initial="hidden"
         whileInView="visible"
@@ -463,6 +463,9 @@ export function MainPage() {
       >
         <div className="w-full max-w-[1240px] px-5 md:px-8">
            <div className="text-center mb-12">
+              <p className="text-[#B48752] font-bold text-[14px] md:text-[15px] mb-3 tracking-wide">
+                 마케팅 솔루션 진단
+              </p>
               <h2 className="text-[32px] md:text-[40px] font-bold text-[#111827] tracking-tight mb-4">
                  어떤 마케팅이 필요한지 모르시겠나요?
               </h2>
@@ -474,7 +477,7 @@ export function MainPage() {
         </div>
       </motion.section>
 
-      {/* 6.5. 숫자로 증명하는 병마장 */}
+      {/* 숫자로 증명하는 병마장 */}
       <motion.section 
         initial="hidden"
         whileInView="visible"
@@ -484,6 +487,14 @@ export function MainPage() {
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
         <div className="w-full max-w-[1240px] px-5 md:px-8 relative z-10">
+           <motion.div variants={fadeUpVariant} className="text-center mb-14 md:mb-16">
+              <h2 className="text-[28px] md:text-[40px] font-bold text-white tracking-tight mb-3">
+                 숫자로 증명하는 병마장
+              </h2>
+              <p className="text-white/70 text-[15px] md:text-[17px]">
+                 파트너 병원과 함께 쌓아온 성과입니다.
+              </p>
+           </motion.div>
            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
               <motion.div variants={fadeUpVariant} className="flex flex-col items-center text-center">
                  <div className="text-[42px] md:text-[56px] font-[900] text-[#B48752] tracking-tighter mb-2 flex items-center">
@@ -511,7 +522,7 @@ export function MainPage() {
                     <CountUp end={3} duration={2.5} enableScrollSpy scrollSpyOnce />
                     <span className="text-[32px] md:text-[40px] ml-1">배</span>
                  </div>
-                 <div className="text-[15px] md:text-[17px] font-bold text-white/90">지역 내 검색 점유율 증가</div>
+                 <div className="text-[15px] md:text-[17px] font-bold text-white/90">검색 점유율 증가</div>
               </motion.div>
            </div>
         </div>

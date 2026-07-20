@@ -7,21 +7,20 @@ interface Message {
   text: string;
 }
 
+const GREETING =
+  "안녕하세요! 병마장 수석 컨설턴트입니다. 현재 원장님의 병원에서 가장 큰 마케팅 고민은 무엇인가요?";
+
 export function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "model", text: "안녕하세요! 병마장 수석 컨설턴트입니다. 현재 원장님의 병원에서 가장 큰 마케팅 고민은 무엇인가요?" }
+    { role: "model", text: GREETING },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
   const handleSend = async () => {
@@ -29,10 +28,10 @@ export function AIChatbot() {
 
     const userMessage = input.trim();
     setInput("");
-    
-    // Add user message to UI
-    const newMessages: Message[] = [...messages, { role: "user", text: userMessage }];
-    setMessages(newMessages);
+
+    const history = messages.filter((m) => m.text !== GREETING);
+    const nextMessages: Message[] = [...messages, { role: "user", text: userMessage }];
+    setMessages(nextMessages);
     setIsLoading(true);
 
     try {
@@ -41,17 +40,26 @@ export function AIChatbot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage,
-          history: messages.filter(m => m.text !== "안녕하세요! 병마장 수석 컨설턴트입니다. 현재 원장님의 병원에서 가장 큰 마케팅 고민은 무엇인가요?")
-        })
+          history,
+        }),
       });
 
       if (!response.ok) throw new Error("API request failed");
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: "model", text: data.text }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: "model", text: data.text || "응답을 불러오지 못했습니다." },
+      ]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: "model", text: "죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요." }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "model",
+          text: "죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -59,56 +67,83 @@ export function AIChatbot() {
 
   return (
     <>
-      {/* Chat Button */}
       <button
+        type="button"
+        aria-label="AI 마케팅 컨설턴트 열기"
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed bottom-6 right-6 w-14 h-14 bg-[#102B4E] rounded-full flex items-center justify-center shadow-lg hover:bg-[#0A192F] hover:-translate-y-1 transition-all duration-300 z-40 md:flex hidden",
-          isOpen && "hidden"
+          "fixed right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#102B4E] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-[#0A192F]",
+          "bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:bottom-6",
+          isOpen && "pointer-events-none scale-0 opacity-0"
         )}
       >
-        <MessageCircle className="w-6 h-6 text-white" />
+        <MessageCircle className="h-6 w-6 text-white" />
       </button>
 
-      {/* Chat Window */}
       <div
         className={cn(
-          "fixed bottom-6 right-6 w-[360px] h-[500px] bg-white rounded-[20px] shadow-2xl border border-gray-100 flex flex-col overflow-hidden transition-all duration-300 z-50 origin-bottom-right",
-          isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
+          "fixed right-5 z-50 flex h-[min(520px,70vh)] w-[min(360px,calc(100vw-2.5rem))] origin-bottom-right flex-col overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-2xl transition-all duration-300",
+          "bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:bottom-6",
+          isOpen
+            ? "scale-100 opacity-100"
+            : "pointer-events-none scale-0 opacity-0"
         )}
       >
-        {/* Header */}
-        <div className="bg-[#102B4E] p-4 flex items-center justify-between text-white">
+        <div className="flex items-center justify-between bg-[#102B4E] p-4 text-white">
           <div className="flex items-center gap-2">
-            <Bot className="w-5 h-5" />
-            <span className="font-bold text-[15px]">AI 마케팅 컨설턴트</span>
+            <Bot className="h-5 w-5" />
+            <span className="text-[15px] font-bold">AI 마케팅 컨설턴트</span>
           </div>
-          <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white transition-colors">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            aria-label="채팅 닫기"
+            onClick={() => setIsOpen(false)}
+            className="text-white/80 transition-colors hover:text-white"
+          >
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 p-4 overflow-y-auto bg-[#FAFAFA] flex flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-4 overflow-y-auto bg-[#FAFAFA] p-4">
           {messages.map((msg, idx) => (
-            <div key={idx} className={cn("flex gap-2 max-w-[85%]", msg.role === "user" ? "self-end flex-row-reverse" : "self-start")}>
-              <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === "user" ? "bg-[#B48752]" : "bg-[#102B4E]")}>
-                {msg.role === "user" ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
+            <div
+              key={idx}
+              className={cn(
+                "flex max-w-[85%] gap-2",
+                msg.role === "user" ? "flex-row-reverse self-end" : "self-start"
+              )}
+            >
+              <div
+                className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+                  msg.role === "user" ? "bg-[#B48752]" : "bg-[#102B4E]"
+                )}
+              >
+                {msg.role === "user" ? (
+                  <User className="h-4 w-4 text-white" />
+                ) : (
+                  <Bot className="h-4 w-4 text-white" />
+                )}
               </div>
-              <div className={cn("p-3 rounded-[12px] text-[14px] leading-relaxed", 
-                msg.role === "user" ? "bg-[#B48752] text-white rounded-tr-none" : "bg-white border border-gray-100 text-[#4B5563] rounded-tl-none shadow-sm"
-              )}>
+              <div
+                className={cn(
+                  "rounded-[12px] p-3 text-[14px] leading-relaxed",
+                  msg.role === "user"
+                    ? "rounded-tr-none bg-[#B48752] text-white"
+                    : "rounded-tl-none border border-gray-100 bg-white text-[#4B5563] shadow-sm"
+                )}
+              >
                 {msg.text}
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="flex gap-2 max-w-[85%] self-start">
-              <div className="w-8 h-8 rounded-full bg-[#102B4E] flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-white" />
+            <div className="flex max-w-[85%] gap-2 self-start">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#102B4E]">
+                <Bot className="h-4 w-4 text-white" />
               </div>
-              <div className="p-3 bg-white border border-gray-100 rounded-[12px] rounded-tl-none shadow-sm flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin text-[#102B4E]" />
+              <div className="flex items-center gap-2 rounded-[12px] rounded-tl-none border border-gray-100 bg-white p-3 shadow-sm">
+                <Loader2 className="h-4 w-4 animate-spin text-[#102B4E]" />
                 <span className="text-[13px] text-gray-500">진단 중...</span>
               </div>
             </div>
@@ -116,23 +151,23 @@ export function AIChatbot() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input */}
-        <div className="p-3 bg-white border-t border-gray-100 flex items-center gap-2">
+        <div className="flex items-center gap-2 border-t border-gray-100 bg-white p-3">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder="마케팅 고민을 입력해주세요..."
-            className="flex-1 bg-[#FAFAFA] border border-gray-200 rounded-full px-4 py-2.5 text-[14px] focus:outline-none focus:border-[#B48752] transition-colors"
+            className="flex-1 rounded-full border border-gray-200 bg-[#FAFAFA] px-4 py-2.5 text-[14px] transition-colors focus:border-[#B48752] focus:outline-none"
             disabled={isLoading}
           />
-          <button 
+          <button
+            type="button"
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="w-10 h-10 rounded-full bg-[#102B4E] flex items-center justify-center disabled:opacity-50 hover:bg-[#0A192F] transition-colors shrink-0"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#102B4E] transition-colors hover:bg-[#0A192F] disabled:opacity-50"
           >
-            <Send className="w-4 h-4 text-white -ml-0.5" />
+            <Send className="h-4 w-4 -ml-0.5 text-white" />
           </button>
         </div>
       </div>
