@@ -1,130 +1,192 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "../../lib/utils";
+import { FORM_URL } from "../landing/DocBits";
 
 const NAV_LINKS = [
-  { name: "병마장", path: "/" },
-  { name: "성공 사례", path: "/cases" },
-  { name: "서비스", path: "/services" },
-  { name: "상품 선택 가이드", path: "/guide" },
+  { name: "오프닝", hash: "opening" },
+  { name: "SEO·GEO", hash: "case-seo" },
+  { name: "미디어", hash: "case-media" },
+  { name: "커뮤니티", hash: "case-community" },
+  { name: "키워드", hash: "case-keyword" },
+  { name: "선택 가이드", hash: "guide" },
   { name: "블로그", path: "/blog" },
 ];
+
+function scrollToHash(hash: string) {
+  const el = document.getElementById(hash);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeHash, setActiveHash] = useState("opening");
   const location = useLocation();
+  const navigate = useNavigate();
+  const onHome = location.pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!onHome) return;
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      requestAnimationFrame(() => scrollToHash(id));
+      setActiveHash(id);
+    }
+  }, [location.hash, onHome]);
+
+  useEffect(() => {
+    if (!onHome) return;
+    const ids = NAV_LINKS.filter((l) => l.hash).map((l) => l.hash!);
+    const onScroll = () => {
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= 140) current = id;
+      }
+      setActiveHash(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [onHome]);
+
+  const goSection = (hash: string) => {
+    setIsMobileMenuOpen(false);
+    if (onHome) {
+      navigate({ pathname: "/", hash: `#${hash}` }, { replace: false });
+      scrollToHash(hash);
+    } else {
+      navigate({ pathname: "/", hash: `#${hash}` });
+    }
+  };
+
   return (
     <div className="sticky top-0 z-50 w-full flex flex-col">
-      {/* 얇은 상단 안내 바 - 프리미엄 스타일 */}
-      <div className="w-full bg-[#0A192F] h-9 flex items-center justify-center border-b border-white/10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none"></div>
-        <span className="text-[#B48752] text-[11px] md:text-[12px] font-bold tracking-widest uppercase flex items-center gap-2 z-10">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#B48752] animate-pulse"></span>
+      <div className="w-full bg-[#1A3F6F] h-9 flex items-center justify-center border-b border-white/10">
+        <span className="text-white/90 text-[11px] md:text-[12px] font-bold tracking-wide flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#CC2222] animate-pulse" />
           동일 지역·동일 진료과목은 한 곳만 진행합니다
         </span>
       </div>
-      
-      {/* 메인 헤더 */}
-      <header 
+
+      <header
         className={cn(
-          "w-full transition-all duration-500",
-          isScrolled 
-            ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] border-b border-[#B48752]/20" 
+          "w-full transition-all duration-300",
+          isScrolled
+            ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100"
             : "bg-white border-b border-gray-100"
         )}
       >
-        <div className="mx-auto flex h-[72px] md:h-[80px] max-w-[1240px] items-center justify-between px-5 md:px-8">
-          <div className="flex items-center gap-10 lg:gap-16">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#0A192F] to-[#1A3F6F] rounded-[8px] flex items-center justify-center transition-transform group-hover:scale-105 duration-500 shadow-md border border-[#0A192F]/20 relative overflow-hidden">
-                <div className="absolute inset-0 bg-white/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></div>
-                <span className="text-white font-[900] text-[15px] relative z-10">B</span>
+        <div className="mx-auto flex h-[64px] md:h-[72px] max-w-[1240px] items-center justify-between px-4 md:px-8">
+          <div className="flex items-center gap-8 lg:gap-10 min-w-0">
+            <button
+              type="button"
+              onClick={() => goSection("opening")}
+              className="flex items-center gap-2.5 group shrink-0"
+            >
+              <div className="w-8 h-8 bg-[#1A3F6F] rounded-[6px] flex items-center justify-center">
+                <span className="text-white font-[900] text-[14px]">병</span>
               </div>
-              <span className="text-[22px] font-[900] text-[#0A192F] tracking-tighter">병마장</span>
-            </Link>
+              <span className="text-[20px] font-[900] text-[#1A3F6F] tracking-tighter">병마장</span>
+            </button>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-10">
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-6 overflow-x-auto">
               {NAV_LINKS.map((link) => {
-                const isActive = location.pathname === link.path || (link.path !== '/' && location.hash === link.path.substring(1));
+                if (link.path) {
+                  const active = location.pathname.startsWith("/blog");
+                  return (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      className={cn(
+                        "text-[14px] whitespace-nowrap py-2 transition-colors",
+                        active ? "text-[#1A3F6F] font-bold" : "text-[#555] font-medium hover:text-[#1A3F6F]"
+                      )}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                }
+                const active = onHome && activeHash === link.hash;
                 return (
-                  <Link
+                  <button
                     key={link.name}
-                    to={link.path}
+                    type="button"
+                    onClick={() => goSection(link.hash!)}
                     className={cn(
-                      "text-[15px] transition-all relative py-2 group flex flex-col items-center",
-                      isActive ? "text-[#0A192F] font-bold" : "text-[#4B5563] font-medium hover:text-[#0A192F]"
+                      "text-[14px] whitespace-nowrap py-2 transition-colors",
+                      active ? "text-[#1A3F6F] font-bold" : "text-[#555] font-medium hover:text-[#1A3F6F]"
                     )}
                   >
-                    <span>{link.name}</span>
-                    <span className={cn(
-                      "absolute -bottom-1 w-1.5 h-1.5 rounded-full transition-all duration-300",
-                      isActive ? "bg-[#B48752] opacity-100 scale-100" : "bg-transparent opacity-0 scale-0 group-hover:bg-[#B48752]/50 group-hover:opacity-100 group-hover:scale-100"
-                    )}></span>
-                  </Link>
+                    {link.name}
+                  </button>
                 );
               })}
             </nav>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             <a
-              href="/contact"
-              className="hidden md:inline-flex h-[44px] items-center justify-center rounded-[8px] bg-transparent border border-[#0A192F] px-7 text-[14px] font-bold text-[#0A192F] transition-all hover:bg-[#0A192F] hover:text-white hover:shadow-lg relative overflow-hidden group"
+              href={FORM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:inline-flex h-[42px] items-center justify-center rounded-[6px] bg-[#1A3F6F] px-5 text-[13px] font-bold text-white hover:bg-[#15355c]"
             >
-              <span className="relative z-10">프리미엄 상담하기</span>
-              <div className="absolute inset-0 bg-[#0A192F] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0"></div>
+              문의하기
             </a>
-
-            {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden p-2 text-text-main"
+              className="lg:hidden p-2 text-[#1A3F6F]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="메뉴 열기"
+              aria-label="메뉴"
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-xl px-5 py-6 shadow-xl absolute w-full left-0 top-full flex flex-col gap-2">
-            <nav className="flex flex-col gap-2">
-              {NAV_LINKS.map((link) => {
-                const isActive = location.pathname === link.path || (link.path !== '/' && location.hash === link.path.substring(1));
-                return (
+          <div className="lg:hidden border-t border-gray-100 bg-white px-5 py-4 absolute w-full left-0 top-full shadow-lg">
+            <nav className="flex flex-col gap-1">
+              {NAV_LINKS.map((link) =>
+                link.path ? (
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={cn(
-                      "text-[17px] font-bold py-3.5 border-b border-gray-50 flex items-center justify-between transition-colors",
-                      isActive ? "text-[#102B4E]" : "text-[#4B5563] hover:text-[#111827]"
-                    )}
+                    className="py-3 text-[16px] font-bold text-[#333] border-b border-gray-50"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.name}
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#B48752]"></span>}
                   </Link>
+                ) : (
+                  <button
+                    key={link.name}
+                    type="button"
+                    className="py-3 text-left text-[16px] font-bold text-[#333] border-b border-gray-50"
+                    onClick={() => goSection(link.hash!)}
+                  >
+                    {link.name}
+                  </button>
                 )
-              })}
+              )}
               <a
-                href="/contact"
-                className="mt-6 flex h-[54px] w-full items-center justify-center rounded-[10px] bg-[#0A192F] text-[16px] font-bold text-white shadow-md active:scale-95 transition-transform"
+                href={FORM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 flex h-[50px] items-center justify-center rounded-[6px] bg-[#1A3F6F] text-white font-bold"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                상담하기
+                문의폼 작성하기
               </a>
             </nav>
           </div>

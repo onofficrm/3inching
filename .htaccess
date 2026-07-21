@@ -1,8 +1,7 @@
-# SPA routes → index.php + SEO helpers
+# 원페이지 홈 + 블로그만 별도
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # robots / sitemap pretty URLs
   RewriteRule ^robots\.txt$ /robots.php [L]
   RewriteRule ^sitemap\.xml$ /sitemap.php [L]
 
@@ -10,6 +9,9 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  RewriteRule ^(cases|services|guide|blog|contact|privacy|terms)/?$ /spa-shell.php?r=$1 [L,QSA]
-  RewriteRule ^(cases|services|guide|blog|admin/blog|privacy|terms|contact)(/.*)?$ /index.php [L,QSA]
+  # 구 경로 → 홈 (해시 스크롤은 클라이언트)
+  RewriteRule ^(cases|services|guide|contact)/?$ /index.php [L,QSA]
+
+  # 블로그·법무
+  RewriteRule ^(blog|admin/blog|privacy|terms)(/.*)?$ /index.php [L,QSA]
 </IfModule>

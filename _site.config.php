@@ -76,8 +76,8 @@ $site_config = array(
     'auto_comment_builtin'      => true,
     /* RSS · sitemap · robots (lib/seo-feed.lib.php, rss.php, sitemap.php) */
     'seo_feed_enabled'          => true,
-    'sitemap_static_pages'      => "/,/cases,/services,/guide,/blog,/contact,/privacy,/terms",
-    'sitemap_exclude_pages'     => '/admin/blog',
+    'sitemap_static_pages'      => "/,/blog,/privacy,/terms",
+    'sitemap_exclude_pages'     => '/admin/blog,/cases,/services,/guide,/contact',
     'hospitel_admin_token'      => '',  /* 비우면 그누보드 관리자 세션 또는 onoff-builder.config 토큰 */
     'sitemap_exclude_boards'    => 'inquiry',  /* 문의 게시판 등 sitemap/RSS 제외 */
     'sitemap_max_posts_per_board' => '500',
