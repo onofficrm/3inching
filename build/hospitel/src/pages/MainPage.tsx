@@ -439,11 +439,11 @@ export function MainPage() {
         <P>전주 효자동 일대 지역·동·증상 키워드 배포 운영 중.</P>
         <P>네이버 통합검색 다수 키워드 노출 확인. 원장 직접 환자 증가 체감.</P>
         <Figure
-          src="image34.jpg"
-          caption={'"전주 효자동 다이어트한의원" 검색 — 통합검색 상단 노출'}
+          src="image36.jpeg"
+          caption={'"효자동 다이어트한의원" 검색 — 통합검색 상단 노출'}
         />
         <Figure
-          src="image35.jpeg"
+          src="image34.jpg"
           caption="운영 중인 원장님의 실제 피드백"
           maxWidth={330}
         />
@@ -451,7 +451,7 @@ export function MainPage() {
           fit="contain"
           note="다른 키워드 노출 화면 2건 더 보기"
           items={[
-            { src: "image36.jpeg", caption: '"전주 야간진료 한의원" 검색' },
+            { src: "image35.jpeg", caption: '"전주 야간진료 한의원" 검색' },
             { src: "image37.jpeg", caption: '"전주 공휴일 한의원" 검색' },
           ]}
         />
