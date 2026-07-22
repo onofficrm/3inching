@@ -133,7 +133,7 @@ export function MainPage() {
         </P>
         <P>작업 후, 환자가 어떤 키워드로 검색해도 이 병원/한의원이 웹영역 맨 위에 나옵니다.</P>
         <ImagePair items={[{ src: "image2.jpeg" }, { src: "image3.jpeg" }]} />
-        <Figure src="image4.jpeg" caption="네이버 AI 탭 — 검색 결과 최상단 노출" />
+        <Figure src="image4.jpeg" />
 
         <P>이게 다가 아닙니다.</P>
         <P>
