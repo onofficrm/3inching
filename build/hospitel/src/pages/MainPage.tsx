@@ -448,6 +448,7 @@ export function MainPage() {
           maxWidth={330}
         />
         <EvidenceSlider
+          fit="contain"
           note="다른 키워드 노출 화면 2건 더 보기"
           items={[
             { src: "image36.jpeg", caption: '"전주 야간진료 한의원" 검색' },
