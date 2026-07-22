@@ -69,9 +69,12 @@ export function ImagePair({
 export function EvidenceSlider({
   note,
   items,
+  fit = "cover",
 }: {
   note: string;
   items: { src: string; caption?: string }[];
+  /** cover: 긴 캡처용 / contain: 글씨 읽기용(AI 화면 등) */
+  fit?: "cover" | "contain";
 }) {
   const railRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -106,6 +109,13 @@ export function EvidenceSlider({
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
+  const imgCls =
+    fit === "contain"
+      ? `block w-full h-auto max-h-[520px] object-contain bg-[#F7F9FC] ${imgBorder}`
+      : `block w-full h-[400px] object-cover object-top ${imgBorder}`;
+
+  const arrowTop = fit === "contain" ? "top-[42%]" : "top-[200px]";
+
   return (
     <div className="my-6 -mx-5 md:mx-0">
       <p className="mb-2 text-center text-[12.5px] text-[#888888] px-5">{note}</p>
@@ -115,7 +125,7 @@ export function EvidenceSlider({
           aria-label="이전"
           disabled={!canPrev}
           onClick={() => scrollByCard(-1)}
-          className="absolute left-1 md:left-0 top-[200px] z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white"
+          className={`absolute left-1 md:left-0 ${arrowTop} z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white`}
         >
           <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
         </button>
@@ -124,7 +134,7 @@ export function EvidenceSlider({
           aria-label="다음"
           disabled={!canNext}
           onClick={() => scrollByCard(1)}
-          className="absolute right-1 md:right-0 top-[200px] z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white"
+          className={`absolute right-1 md:right-0 ${arrowTop} z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white`}
         >
           <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
         </button>
@@ -133,11 +143,16 @@ export function EvidenceSlider({
           className="flex gap-3.5 overflow-x-auto px-5 md:px-12 pb-1 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {items.map((item) => (
-            <figure key={item.src} className="m-0 w-[300px] max-w-[78vw] shrink-0 snap-center">
+            <figure
+              key={item.src}
+              className={`m-0 shrink-0 snap-center ${
+                fit === "contain" ? "w-[min(420px,85vw)]" : "w-[300px] max-w-[78vw]"
+              }`}
+            >
               <img
                 src={docImg(item.src)}
                 alt={item.caption || ""}
-                className={`block w-full h-[400px] object-cover object-top ${imgBorder}`}
+                className={imgCls}
                 loading="lazy"
               />
               {item.caption ? (

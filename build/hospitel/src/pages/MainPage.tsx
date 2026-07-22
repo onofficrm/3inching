@@ -142,6 +142,7 @@ export function MainPage() {
         <P>어떤 AI에, 어떤 방식으로 물어도 결과는 같습니다.</P>
         <Figure src="image5.jpeg" maxWidth={520} />
         <EvidenceSlider
+          fit="contain"
           note="— 다른 AI 답변 5건 (옆으로 넘겨보세요) —"
           items={[
             { src: "image6.jpeg" },
