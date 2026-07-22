@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLScPVeqViqRpAwrADPPJ8Ws7lsdgjemz35S2k1q3xwW4rU-SSg/viewform?usp=header";
@@ -72,25 +73,81 @@ export function EvidenceSlider({
   note: string;
   items: { src: string; caption?: string }[];
 }) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  const updateArrows = useCallback(() => {
+    const el = railRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft < max - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = railRef.current;
+    if (!el) return;
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    const ro = new ResizeObserver(updateArrows);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", updateArrows);
+      ro.disconnect();
+    };
+  }, [updateArrows, items.length]);
+
+  const scrollByCard = (dir: -1 | 1) => {
+    const el = railRef.current;
+    if (!el) return;
+    const card = el.querySelector("figure");
+    const step = card ? card.getBoundingClientRect().width + 14 : 314;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
   return (
     <div className="my-6 -mx-5 md:mx-0">
       <p className="mb-2 text-center text-[12.5px] text-[#888888] px-5">{note}</p>
-      <div className="flex gap-3.5 overflow-x-auto px-5 pb-3 snap-x snap-mandatory [scrollbar-width:thin]">
-        {items.map((item) => (
-          <figure key={item.src} className="m-0 w-[300px] max-w-[78vw] shrink-0 snap-center">
-            <img
-              src={docImg(item.src)}
-              alt={item.caption || ""}
-              className={`block w-full h-[400px] object-cover object-top ${imgBorder}`}
-              loading="lazy"
-            />
-            {item.caption ? (
-              <figcaption className="mt-2 text-[12.5px] text-[#888888] text-center leading-relaxed">
-                {item.caption}
-              </figcaption>
-            ) : null}
-          </figure>
-        ))}
+      <div className="relative">
+        <button
+          type="button"
+          aria-label="이전"
+          disabled={!canPrev}
+          onClick={() => scrollByCard(-1)}
+          className="absolute left-1 md:left-0 top-[200px] z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white"
+        >
+          <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+        </button>
+        <button
+          type="button"
+          aria-label="다음"
+          disabled={!canNext}
+          onClick={() => scrollByCard(1)}
+          className="absolute right-1 md:right-0 top-[200px] z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8EF] bg-white/95 text-[#1A3F6F] shadow-sm transition-opacity disabled:pointer-events-none disabled:opacity-0 hover:bg-white"
+        >
+          <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
+        </button>
+        <div
+          ref={railRef}
+          className="flex gap-3.5 overflow-x-auto px-5 md:px-12 pb-1 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {items.map((item) => (
+            <figure key={item.src} className="m-0 w-[300px] max-w-[78vw] shrink-0 snap-center">
+              <img
+                src={docImg(item.src)}
+                alt={item.caption || ""}
+                className={`block w-full h-[400px] object-cover object-top ${imgBorder}`}
+                loading="lazy"
+              />
+              {item.caption ? (
+                <figcaption className="mt-2 text-[12.5px] text-[#888888] text-center leading-relaxed">
+                  {item.caption}
+                </figcaption>
+              ) : null}
+            </figure>
+          ))}
+        </div>
       </div>
     </div>
   );
