@@ -1,35 +1,8 @@
 import { Link } from "react-router-dom";
-import { FORM_URL, KAKAO_URL } from "../landing/DocBits";
 
 export function Footer() {
   return (
     <footer className="w-full bg-white border-t border-gray-200">
-      <div className="w-full bg-[#FAFAFA] py-12 flex justify-center border-b border-gray-100">
-        <div className="w-full max-w-[860px] px-5 md:px-8 text-center">
-          <h2 className="text-[22px] md:text-[26px] font-bold text-[#1A3F6F] mb-6 tracking-tight">
-            아직 이 자리가 비어 있을 때 확인하세요
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={FORM_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#1A3F6F] px-7 text-[15px] font-bold text-white"
-            >
-              문의폼 작성하기
-            </a>
-            <a
-              href={KAKAO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#FEE500] px-7 text-[15px] font-bold text-[#371D1E]"
-            >
-              카카오톡 채널 문의
-            </a>
-          </div>
-        </div>
-      </div>
-
       <div className="mx-auto max-w-[860px] px-5 md:px-8 py-10">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
           <div>
