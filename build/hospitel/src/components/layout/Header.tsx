@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "../../lib/utils";
@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { name: "커뮤니티", hash: "case-community" },
   { name: "키워드", hash: "case-keyword" },
   { name: "선택 가이드", hash: "guide" },
-  { name: "블로그", path: "/blog" },
+  { name: "블로그", href: "/blog" },
 ];
 
 function scrollToHash(hash: string) {
@@ -103,19 +103,15 @@ export function Header() {
 
             <nav className="hidden lg:flex items-center gap-5 xl:gap-6 overflow-x-auto">
               {NAV_LINKS.map((link) => {
-                if (link.path) {
-                  const active = location.pathname.startsWith("/blog");
+                if (link.href) {
                   return (
-                    <Link
+                    <a
                       key={link.name}
-                      to={link.path}
-                      className={cn(
-                        "text-[14px] whitespace-nowrap py-2 transition-colors",
-                        active ? "text-[#1A3F6F] font-bold" : "text-[#555] font-medium hover:text-[#1A3F6F]"
-                      )}
+                      href={link.href}
+                      className="text-[14px] whitespace-nowrap py-2 transition-colors text-[#555] font-medium hover:text-[#1A3F6F]"
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   );
                 }
                 const active = onHome && activeHash === link.hash;
@@ -159,15 +155,15 @@ export function Header() {
           <div className="lg:hidden border-t border-gray-100 bg-white px-5 py-4 absolute w-full left-0 top-full shadow-lg">
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link) =>
-                link.path ? (
-                  <Link
+                link.href ? (
+                  <a
                     key={link.name}
-                    to={link.path}
+                    href={link.href}
                     className="py-3 text-[16px] font-bold text-[#333] border-b border-gray-50"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 ) : (
                   <button
                     key={link.name}

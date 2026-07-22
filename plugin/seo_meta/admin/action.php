@@ -15,7 +15,7 @@ if (is_file(G5_LIB_PATH . '/icrm-point.lib.php')) {
 $action = isset($_REQUEST['action']) ? preg_replace('/[^a-z_]/', '', $_REQUEST['action']) : '';
 
 $super_only = array('save_settings', 'save_meta', 'bulk_list', 'bulk_run', 'geo_fix_post', 'test_icrm', 'sync_points', 'request_point_charge');
-$manager_actions = array('ai_generate', 'ai_draft', 'ai_faq', 'ai_image_alt', 'ai_score', 'ai_keywords', 'ai_publish_checklist', 'ai_internal_links', 'rank_register', 'upload_image');
+$manager_actions = array('ai_generate', 'ai_autofill', 'ai_draft', 'ai_faq', 'ai_image_alt', 'ai_score', 'ai_keywords', 'ai_publish_checklist', 'ai_internal_links', 'rank_register', 'upload_image');
 
 if (in_array($action, $super_only, true)) {
     if ($is_admin !== 'super') {
@@ -180,6 +180,59 @@ if ($action === 'ai_generate') {
 
     $result = g5b_seo_meta_ai_generate($type, $key, $extra);
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+if ($action === 'ai_autofill') {
+    $type = isset($_POST['type']) ? preg_replace('/[^a-z]/', '', $_POST['type']) : 'posts';
+    $key = isset($_POST['key']) ? trim((string) $_POST['key']) : '';
+    $extra = array(
+        'subject' => isset($_POST['subject']) ? $_POST['subject'] : '',
+        'content' => isset($_POST['content']) ? $_POST['content'] : '',
+    );
+
+    if ($type === '' || $key === '') {
+        echo json_encode(array('ok' => false, 'error' => '유형 또는 키가 없습니다.'), JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $result = g5b_seo_meta_ai_generate($type, $key, $extra);
+    if (empty($result['ok'])) {
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $data = isset($result['data']) && is_array($result['data']) ? $result['data'] : array();
+    $faq = isset($data['faq']) && is_array($data['faq']) ? $data['faq'] : array();
+    if (count($faq) < 3 && function_exists('g5b_seo_meta_ai_generate_faq_enhanced')) {
+        $faq_result = g5b_seo_meta_ai_generate_faq_enhanced($type, $key, $extra, 6);
+        if (!empty($faq_result['ok']) && !empty($faq_result['data']['faq']) && is_array($faq_result['data']['faq'])) {
+            $data['faq'] = $faq_result['data']['faq'];
+        }
+    }
+
+    if (empty($data['schema_type'])) {
+        $data['schema_type'] = 'Article';
+    }
+    if (empty($data['robots'])) {
+        $data['robots'] = 'index,follow';
+    }
+
+    if (function_exists('g5b_seo_meta_extract_first_image_from_html')) {
+        $first_image = g5b_seo_meta_extract_first_image_from_html(isset($extra['content']) ? $extra['content'] : '');
+        if ($first_image !== '') {
+            $data['og_image'] = $first_image;
+        }
+    }
+
+    if (preg_match('#^([a-z0-9_]+):(\d+)$#i', $key, $m) && (int) $m[2] > 0 && function_exists('g5b_seo_meta_build_post_public_url')) {
+        $canonical = g5b_seo_meta_build_post_public_url($m[1], (int) $m[2]);
+        if ($canonical !== '') {
+            $data['canonical'] = $canonical;
+        }
+    }
+
+    echo json_encode(array('ok' => true, 'data' => $data), JSON_UNESCAPED_UNICODE);
     exit;
 }
 

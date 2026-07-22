@@ -46,7 +46,7 @@ export function Footer() {
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-medium text-[#555]">
             <a href="/#case-seo" className="hover:text-[#1A3F6F]">사례</a>
             <a href="/#guide" className="hover:text-[#1A3F6F]">선택 가이드</a>
-            <Link to="/blog" className="hover:text-[#1A3F6F]">블로그</Link>
+            <a href="/blog" className="hover:text-[#1A3F6F]">블로그</a>
             <Link to="/privacy" className="hover:text-[#1A3F6F]">개인정보처리방침</Link>
             <Link to="/terms" className="hover:text-[#1A3F6F]">이용약관</Link>
           </div>

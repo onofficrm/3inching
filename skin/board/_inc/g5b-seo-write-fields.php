@@ -36,19 +36,32 @@ if ($w === 'u' && !empty($bo_table) && !empty($wr_id)) {
 }
 
 g5b_seo_meta_preview_assets();
+$g5b_seo_ai_ready = function_exists('g5b_seo_meta_is_ai_configured') && g5b_seo_meta_is_ai_configured();
+$g5b_seo_core_empty = empty($g5b_seo_post_meta['title']) && empty($g5b_seo_post_meta['description']) && empty($g5b_seo_post_meta['keywords']);
 ?>
 
 <div class="board-write-form__row write_div g5b-seo-meta-panel" id="g5b_seo_meta_panel">
-    <details class="g5b-seo-meta-panel__details">
+    <details class="g5b-seo-meta-panel__details"<?php echo $g5b_seo_core_empty ? ' open' : ''; ?>>
     <summary class="g5b-seo-meta-panel__summary">
-        <span>
-            <strong class="board-write-form__label">SEO 메타 (수동 · AI · 미리보기)</strong>
-            <span class="g5b-seo-meta-panel__summary-hint">클릭해서 SEO 입력, AI 생성, 검색/SNS 미리보기를 열고 닫습니다.</span>
-        </span>
-        <span class="g5b-seo-meta-panel__summary-icon" aria-hidden="true"></span>
+        <span class="board-write-form__label g5b-seo-meta-panel__title">SEO 메타 (수동 · AI · 미리보기)</span>
+        <span class="g5b-seo-meta-panel__summary-hint"><?php echo $g5b_seo_core_empty ? '비어 있음 · 저장 시 자동 채움' : '설정됨 · 클릭해서 열기'; ?></span>
     </summary>
-    <p class="g5b-seo-meta-panel__hint">비워 두면 자동 메타가 적용됩니다. 대표 이미지·타이틀·설명 입력 시 네이버·구글 검색 미리보기처럼 표시됩니다.</p>
+    <div class="g5b-seo-meta-panel__body">
+    <p class="g5b-seo-meta-panel__hint">
+        <strong>SEO 한 번에 채우기</strong>로 타이틀·설명·키워드·FAQ를 생성하세요.
+        비워 두고 저장하면 서버에서 자동으로 채웁니다.<?php echo $g5b_seo_ai_ready ? '' : ' (iCRM SEO 연동이 필요합니다)'; ?>
+    </p>
     <input type="hidden" name="g5b_seo_meta_enabled" value="1">
+    <input type="hidden" name="g5b_seo_auto_fill" id="g5b_seo_auto_fill" value="1">
+
+    <div class="g5b-seo-meta-panel__actions g5b-seo-meta-panel__actions--primary">
+        <button type="button" class="btn_submit btn" id="g5b_seo_autofill_btn">SEO 한 번에 채우기</button>
+        <label class="g5b-seo-meta-panel__auto">
+            <input type="checkbox" id="g5b_seo_auto_fill_chk" checked>
+            비어 있으면 저장 시 자동 채움
+        </label>
+        <span class="g5b-seo-meta-panel__status" id="g5b_seo_ai_status" aria-live="polite"></span>
+    </div>
 
     <div class="g5b-seo-layout">
     <div class="g5b-seo-layout__form">
@@ -131,16 +144,18 @@ g5b_seo_meta_preview_assets();
         ?>
     </div>
 
-    <div class="g5b-seo-meta-panel__actions">
-        <button type="button" class="btn btn-outline" id="g5b_seo_score_btn">1. SEO 점수</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_keyword_btn">2. 키워드 추천</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_internal_links_btn">내부링크 추천</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_ai_btn">AI SEO·GEO 생성</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_faq_btn">3. GEO FAQ 생성</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_alt_btn">이미지 ALT 생성</button>
-        <button type="button" class="btn btn-outline" id="g5b_seo_checklist_btn">4. 발행 체크리스트</button>
-        <span class="g5b-seo-meta-panel__status" id="g5b_seo_ai_status" aria-live="polite"></span>
-    </div>
+    <details class="g5b-seo-meta-panel__advanced">
+        <summary>고급 도구 (점수 · 키워드 · 내부링크 · ALT)</summary>
+        <div class="g5b-seo-meta-panel__actions">
+            <button type="button" class="btn btn-outline" id="g5b_seo_score_btn">1. SEO 점수</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_keyword_btn">2. 키워드 추천</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_internal_links_btn">내부링크 추천</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_ai_btn">AI SEO만 생성</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_faq_btn">3. GEO FAQ 생성</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_alt_btn">이미지 ALT 생성</button>
+            <button type="button" class="btn btn-outline" id="g5b_seo_checklist_btn">4. 발행 체크리스트</button>
+        </div>
+    </details>
     <div class="g5b-seo-assist" id="g5b_seo_assist" hidden></div>
     </div>
 
@@ -156,23 +171,21 @@ g5b_seo_meta_preview_assets();
     ));
     ?>
     </div>
+    </div>
     </details>
 </div>
 
 <style>
 .g5b-seo-meta-panel { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; }
 .g5b-seo-meta-panel__details { display: block; }
-.g5b-seo-meta-panel__summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: -1rem; padding: 1rem; border-radius: 8px; cursor: pointer; list-style: none; user-select: none; }
+.g5b-seo-meta-panel__summary { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; cursor: pointer; list-style: none; }
 .g5b-seo-meta-panel__summary::-webkit-details-marker { display: none; }
-.g5b-seo-meta-panel__summary:hover { background: #f1f5f9; }
-.g5b-seo-meta-panel__summary .board-write-form__label { display: block; margin: 0; }
-.g5b-seo-meta-panel__summary-hint { display: block; margin-top: 0.25rem; font-size: 0.8125rem; font-weight: 400; color: #64748b; }
-.g5b-seo-meta-panel__summary-icon { flex: 0 0 auto; width: 2rem; height: 2rem; border-radius: 999px; background: #fff; border: 1px solid #cbd5e1; position: relative; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06); }
-.g5b-seo-meta-panel__summary-icon:before,
-.g5b-seo-meta-panel__summary-icon:after { content: ""; position: absolute; top: 50%; left: 50%; width: 0.75rem; height: 2px; background: #334155; border-radius: 999px; transform: translate(-50%, -50%); transition: transform 0.15s; }
-.g5b-seo-meta-panel__summary-icon:after { transform: translate(-50%, -50%) rotate(90deg); }
-.g5b-seo-meta-panel__details[open] > .g5b-seo-meta-panel__summary { margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; border-radius: 8px 8px 0 0; background: #fff; }
-.g5b-seo-meta-panel__details[open] .g5b-seo-meta-panel__summary-icon:after { transform: translate(-50%, -50%) rotate(0deg); }
+.g5b-seo-meta-panel__summary::after { content: "열기"; flex: 0 0 auto; padding: 0.25rem 0.55rem; border: 1px solid #cbd5e1; border-radius: 999px; background: #fff; color: #475569; font-size: 0.75rem; font-weight: 700; }
+.g5b-seo-meta-panel__details[open] .g5b-seo-meta-panel__summary::after { content: "닫기"; }
+.g5b-seo-meta-panel__title { margin: 0; }
+.g5b-seo-meta-panel__summary-hint { margin-left: auto; color: #64748b; font-size: 0.8125rem; }
+.g5b-seo-meta-panel__details[open] .g5b-seo-meta-panel__summary-hint { display: none; }
+.g5b-seo-meta-panel__body { margin-top: 1rem; }
 .g5b-seo-meta-panel__hint { margin: 0 0 1rem; font-size: 0.875rem; color: #64748b; }
 .g5b-seo-meta-panel__grid { display: grid; gap: 0.75rem; }
 .g5b-seo-meta-panel__field label { display: block; margin-bottom: 0.25rem; font-weight: 600; font-size: 0.875rem; }
@@ -180,6 +193,12 @@ g5b_seo_meta_preview_assets();
 .g5b-seo-meta-panel__sub { font-weight: 600; margin: 1rem 0 0.5rem; }
 .g5b-seo-meta-panel__faq-row { display: grid; gap: 0.5rem; margin-bottom: 0.75rem; }
 .g5b-seo-meta-panel__actions { margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.g5b-seo-meta-panel__actions--primary { margin: 0 0 1rem; padding: 0.85rem 1rem; border: 1px solid #bbf7d0; border-radius: 8px; background: #f0fdf4; }
+.g5b-seo-meta-panel__actions--primary .btn_submit { min-height: 40px; padding: 0 1rem; font-weight: 700; }
+.g5b-seo-meta-panel__auto { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0; color: #166534; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+.g5b-seo-meta-panel__advanced { margin-top: 1rem; padding: 0.75rem 0.85rem; border: 1px dashed #cbd5e1; border-radius: 8px; background: #fff; }
+.g5b-seo-meta-panel__advanced > summary { cursor: pointer; font-weight: 700; color: #475569; font-size: 0.875rem; }
+.g5b-seo-meta-panel__advanced[open] > summary { margin-bottom: 0.75rem; }
 .g5b-seo-meta-panel__status { font-size: 0.875rem; color: #2563eb; }
 .g5b-seo-assist { margin-top: 1rem; padding: 1rem; border: 1px solid #dbeafe; border-radius: 8px; background: #eff6ff; }
 .g5b-seo-assist__title { margin: 0 0 0.5rem; font-weight: 700; color: #1e40af; }
@@ -348,8 +367,80 @@ g5b_seo_meta_preview_assets();
         return fd;
     }
 
+    function applySeoData(d) {
+        if (!d) return;
+        if (d.title) document.getElementById('g5b_seo_title').value = d.title;
+        if (d.description) document.getElementById('g5b_seo_description').value = d.description;
+        if (d.keywords) document.getElementById('g5b_seo_keywords').value = d.keywords;
+        if (d.robots) document.getElementById('g5b_seo_robots').value = d.robots;
+        if (d.schema_type) document.getElementById('g5b_seo_schema_type').value = d.schema_type;
+        if (d.canonical) {
+            var canon = document.getElementById('g5b_seo_canonical');
+            if (canon && !canon.value) canon.value = d.canonical;
+        }
+        if (d.og_image) {
+            var og = document.getElementById('g5b_seo_og_image');
+            if (og && !og.value) {
+                og.value = d.og_image;
+                og.dispatchEvent(new Event('input', { bubbles: true }));
+                og.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+        fillFaq(d.faq);
+        refreshPreview();
+    }
+
+    function firstContentImage() {
+        var html = getContent() || '';
+        var m = html.match(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/i);
+        return m ? m[1] : '';
+    }
+
+    var autoFillChk = document.getElementById('g5b_seo_auto_fill_chk');
+    var autoFillHidden = document.getElementById('g5b_seo_auto_fill');
+    if (autoFillChk && autoFillHidden) {
+        autoFillChk.addEventListener('change', function() {
+            autoFillHidden.value = autoFillChk.checked ? '1' : '0';
+        });
+    }
+
     var subjectEl = document.getElementById('wr_subject');
     if (subjectEl) subjectEl.addEventListener('input', refreshPreview);
+
+    var autofillBtn = document.getElementById('g5b_seo_autofill_btn');
+    if (autofillBtn) {
+        autofillBtn.addEventListener('click', function() {
+            var status = document.getElementById('g5b_seo_ai_status');
+            var details = document.querySelector('#g5b_seo_meta_panel .g5b-seo-meta-panel__details');
+            if (details) details.open = true;
+            if (!getSubject() && !getContent()) {
+                status.textContent = '제목 또는 본문을 먼저 입력해 주세요.';
+                return;
+            }
+            status.textContent = 'SEO·FAQ 한 번에 생성 중… (20~40초)';
+            autofillBtn.disabled = true;
+            var fd = new FormData();
+            fd.append('action', 'ai_autofill');
+            fd.append('type', aiType);
+            fd.append('key', aiKey);
+            fd.append('subject', getSubject());
+            fd.append('content', getContent());
+            fetch(actionUrl, { method: 'POST', body: fd, credentials: 'same-origin' })
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    autofillBtn.disabled = false;
+                    if (!res.ok) { status.textContent = res.error || '생성 실패'; return; }
+                    var d = res.data || {};
+                    if (!d.og_image) {
+                        var img = firstContentImage();
+                        if (img) d.og_image = img;
+                    }
+                    applySeoData(d);
+                    status.textContent = 'SEO 한 번에 채우기 완료 — 확인 후 저장하세요.';
+                })
+                .catch(function() { autofillBtn.disabled = false; status.textContent = '네트워크 오류'; });
+        });
+    }
 
     var seoBtn = document.getElementById('g5b_seo_ai_btn');
     if (seoBtn) {
@@ -368,14 +459,7 @@ g5b_seo_meta_preview_assets();
                 .then(function(res) {
                     seoBtn.disabled = false;
                     if (!res.ok) { status.textContent = res.error || '생성 실패'; return; }
-                    var d = res.data || {};
-                    if (d.title) document.getElementById('g5b_seo_title').value = d.title;
-                    if (d.description) document.getElementById('g5b_seo_description').value = d.description;
-                    if (d.keywords) document.getElementById('g5b_seo_keywords').value = d.keywords;
-                    if (d.robots) document.getElementById('g5b_seo_robots').value = d.robots;
-                    if (d.schema_type) document.getElementById('g5b_seo_schema_type').value = d.schema_type;
-                    fillFaq(d.faq);
-                    refreshPreview();
+                    applySeoData(res.data || {});
                     status.textContent = 'SEO 생성 완료 — 저장 후 반영됩니다.';
                 })
                 .catch(function() { seoBtn.disabled = false; status.textContent = '네트워크 오류'; });

@@ -8,9 +8,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { MainPage } from "./pages/MainPage";
 
-const BlogListPage = lazy(() => import("./pages/BlogListPage").then((m) => ({ default: m.BlogListPage })));
-const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage").then((m) => ({ default: m.BlogDetailPage })));
-const BlogAdminPage = lazy(() => import("./pages/BlogAdminPage").then((m) => ({ default: m.BlogAdminPage })));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage").then((m) => ({ default: m.PrivacyPage })));
 const TermsPage = lazy(() => import("./pages/TermsPage").then((m) => ({ default: m.TermsPage })));
 
@@ -29,11 +26,12 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<MainPage />} />
-            <Route path="blog" element={<BlogListPage />} />
-            <Route path="blog/:id" element={<BlogDetailPage />} />
-            <Route path="admin/blog" element={<BlogAdminPage />} />
             <Route path="privacy" element={<PrivacyPage />} />
             <Route path="terms" element={<TermsPage />} />
+            {/* 블로그는 Gnuboard column (/blog → board.php) */}
+            <Route path="blog" element={<Navigate to="/" replace />} />
+            <Route path="blog/:id" element={<Navigate to="/" replace />} />
+            <Route path="admin/blog" element={<Navigate to="/" replace />} />
             {/* 구 분리 페이지 → 홈 섹션 북마크 */}
             <Route path="cases" element={<Navigate to="/#case-seo" replace />} />
             <Route path="services" element={<Navigate to="/#case-keyword" replace />} />

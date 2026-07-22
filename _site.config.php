@@ -76,8 +76,8 @@ $site_config = array(
     'auto_comment_builtin'      => true,
     /* RSS · sitemap · robots (lib/seo-feed.lib.php, rss.php, sitemap.php) */
     'seo_feed_enabled'          => true,
-    'sitemap_static_pages'      => "/,/blog,/privacy,/terms",
-    'sitemap_exclude_pages'     => '/admin/blog,/cases,/services,/guide,/contact',
+    'sitemap_static_pages'      => "/,/privacy,/terms",
+    'sitemap_exclude_pages'     => '/admin/blog,/cases,/services,/guide,/contact,/blog',
     'hospitel_admin_token'      => '',  /* 비우면 그누보드 관리자 세션 또는 onoff-builder.config 토큰 */
     'sitemap_exclude_boards'    => 'inquiry',  /* 문의 게시판 등 sitemap/RSS 제외 */
     'sitemap_max_posts_per_board' => '500',
@@ -99,8 +99,8 @@ $site_config = array(
     /* 콘텐츠 수집기 (lib/icrm-content.lib.php, plugin/content_collector/) — iCRM 중앙 API */
     'content_collector_builtin'      => true,
     'icrm_content_api_base_url'      => 'https://icrm.co.kr/api/content-collector',
-    'icrm_content_default_bo_table'  => '',  /* 수집 초안 기본 게시판 */
-    'icrm_content_default_mb_id'     => '',  /* 기본 작성자 (비우면 cf_admin) */
+    'icrm_content_default_bo_table'  => 'column',  /* 블로그(칼럼) — iCRM 동일 mb_id 발행 */
+    'icrm_content_default_mb_id'     => '',  /* 기본 작성자 (비우면 cf_admin / 발행 요청 mb_id) */
     /* iCRM 중앙 g5-update (lib/icrm-update.lib.php) — 빌더 publish → iCRM → 사이트 자동 pull */
     'icrm_update_enabled'       => true,
     'icrm_update_api_base_url'  => 'https://icrm.co.kr/api/g5-update',

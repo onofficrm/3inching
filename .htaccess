@@ -1,4 +1,4 @@
-# 원페이지 홈 + 블로그만 별도
+# 원페이지 홈 + 그누보드 블로그(column)
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
@@ -9,9 +9,13 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # 구 경로 → 홈 (해시 스크롤은 클라이언트)
+  # 구 경로 → 홈
   RewriteRule ^(cases|services|guide|contact)/?$ /index.php [L,QSA]
 
-  # 블로그·법무
-  RewriteRule ^(blog|admin/blog|privacy|terms)(/.*)?$ /index.php [L,QSA]
+  # 블로그 = Gnuboard column (맥락한의원과 동일 글쓰기/SEO/AI)
+  RewriteRule ^blog/?$ /bbs/board.php?bo_table=column [L,QSA]
+  RewriteRule ^admin/blog/?$ /bbs/write.php?bo_table=column [L,QSA]
+
+  # SPA 법무 페이지만
+  RewriteRule ^(privacy|terms)(/.*)?$ /index.php [L,QSA]
 </IfModule>

@@ -1673,6 +1673,25 @@ if (!function_exists('g5b_seo_meta_ensure_seo_init')) {
     }
 }
 
+if (!function_exists('g5b_seo_meta_extract_first_image_from_html')) {
+    function g5b_seo_meta_extract_first_image_from_html($html)
+    {
+        $html = (string) $html;
+        if ($html === '') {
+            return '';
+        }
+
+        if (preg_match('#<img\b[^>]*\bsrc\s*=\s*(["\'])([^"\']+)\1#i', $html, $m)) {
+            return trim((string) $m[2]);
+        }
+        if (preg_match('#<img\b[^>]*\bsrc\s*=\s*([^\s>]+)#i', $html, $m)) {
+            return trim((string) $m[1], "\"'");
+        }
+
+        return '';
+    }
+}
+
 if (!function_exists('g5b_seo_meta_user_can_manage')) {
     function g5b_seo_meta_user_can_manage()
     {
